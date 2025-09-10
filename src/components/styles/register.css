@@ -1,0 +1,66 @@
+.header__spacer {
+  display: flex;
+  align-items: baseline; /* Centra verticalmente */
+  justify-content: space-between; /* Espacia los elementos */
+}
+
+.header__link a {
+  margin: 0;
+  font-weight: normal;
+  color: #fff;
+  text-decoration: none; /* Opcional: quita el subrayado */
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 80%;
+  margin-top: 12px;
+}
+
+.register__form-title {
+  font-size: 24px;
+  margin-top: 60px;
+  margin-bottom: 50px;
+}
+
+.register__form-fieldset {
+  display: flex;
+  flex-direction: column;
+  width: 358px;
+  gap: 30px;
+  border: none; /* Quita el borde del fieldset */
+}
+
+.form__input-email,
+.form__input-password {
+  background-color: #000;
+  color: #fff;
+}
+
+.register__form-submit_button {
+  width: 358px; /* Ocupa todo el ancho del formulario */
+  padding: 12px 0; /* Ajusta el alto */
+  font-size: 1rem; /* Tamaño de texto */
+  background: #fff; /* Color de fondo */
+  color: #000; /* Color de texto */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 215px;
+}
+
+.register__form-footer {
+  text-align: center;
+  width: 100%;
+  margin-top: 24px; /* Opcional: separa del formulario */
+}
+
+.register__form-footer-link a {
+  color: #fff;
+  text-decoration: none; /* Opcional: quita el subrayado */
+  font-weight: bold; /* Opcional: resalta el enlace */
+}
