@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Header from "../Header/Header.jsx";
-import "../styles/register.css";
+import "../../../src/blocks/register.css";
 import { Link } from "react-router-dom";
 
 const Register = ({ handleRegistration }) => {
@@ -17,10 +16,10 @@ const Register = ({ handleRegistration }) => {
     }));
   };
 
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     handleLogin(data);
-  //   };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   handleLogin(data);
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,12 +28,6 @@ const Register = ({ handleRegistration }) => {
 
   return (
     <div className="register-container">
-      {/* <Header>
-        <p className="header__link">
-          <Link to="/login"> Iniciar sesión</Link>
-        </p>
-      </Header> */}
-
       <form className="register__form" onSubmit={handleSubmit}>
         <h2 className="register__form-title">Regístrate</h2>
         <fieldset className="register__form-fieldset">
@@ -62,7 +55,6 @@ const Register = ({ handleRegistration }) => {
         <button className="register__form-submit_button" type="submit">
           Regístrate
         </button>
-        {/* {error && <div className="register__error">{error}</div>} */}
       </form>
       <p className="register__form-footer register__form-footer-link">
         ¿Ya eres miembro?<Link to="/login"> Inicia sesión Aquí</Link>

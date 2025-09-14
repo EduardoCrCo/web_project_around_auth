@@ -1,19 +1,14 @@
 import { useState } from "react";
-import Header from "../Header/Header.jsx";
-import "../styles/auth.css";
+import "../../../src/blocks/login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { authorize } from "../../utils/auth.js";
 
-// export default function Login({ onLogin }) {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [error, setError] = useState("");
-
-const Login = ({ setIsLoggedIn }) => {
+const Login = ({ onLogin, showErrorTooltip }) => {
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -29,24 +24,21 @@ const Login = ({ setIsLoggedIn }) => {
     authorize(data.email, data.password)
       .then((data) => {
         localStorage.setItem("jwt", data.token);
-        setIsLoggedIn(true);
+        onLogin();
         navigate("/");
       })
-      .catch((err) => {
-        setError(err);
+      .catch(() => {
+        showErrorTooltip(
+          "¡Ups! Algo salió mal. Por favor, inténtalo de nuevo."
+        );
       });
   };
 
   return (
     <div className="login-container">
-      {/* <Header>
-        <p className="header__link">
-          <Link to="/register"> Regístrate</Link>
-        </p>
-      </Header> */}
-      <form className="auth__form" onSubmit={handleSubmit}>
-        <h2 className="auth__form-title">Inicia sesión</h2>
-        <fieldset className="auth__form-fieldset">
+      <form className="login__form" onSubmit={handleSubmit}>
+        <h2 className="login__form-title">Inicia sesión</h2>
+        <fieldset className="login__form-fieldset">
           <input
             id="email"
             name="email"
@@ -68,12 +60,11 @@ const Login = ({ setIsLoggedIn }) => {
             required
           />
         </fieldset>
-        <button className="auth__form-submit_button" type="submit">
+        <button className="login__form-submit_button" type="submit">
           Inicia sesión
         </button>
-        {/* {error && <div className="login__error">{error}</div>} */}
       </form>
-      <p className="auth__form-footer auth__form-footer-link">
+      <p className="login__form-footer login__form-footer-link">
         ¿Aún no eres miembro?<Link to="/register"> Regístrate Aquí</Link>
       </p>
     </div>

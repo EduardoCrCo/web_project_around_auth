@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import Card from "./components/Card/Card";
-import EditAvatar from "./components/forms/Avatar/EditAvatar";
+import EditAvatar from "./components/forms/EditAvatar/EditAvatar.jsx";
 import EditProfile from "./components/forms/EditProfile/EditProfile";
 import NewCard from "./components/forms/NewCard/NewCard";
 import RemoveCard from "./components/forms/RemoveCard/RemoveCard";

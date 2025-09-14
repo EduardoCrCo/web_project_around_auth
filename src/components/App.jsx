@@ -25,18 +25,24 @@ function App() {
   const navigate = useNavigate();
   const [infoTooltipMessage, setInfoTooltipMessage] = useState("");
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isTooltipSuccess, setIsTooltipSuccess] = useState(true);
+  const [email, setEmail] = useState(null);
 
   const handleRegistration = (email, password) => {
     auth
       .register(email, password)
-      .then((res) => {
-        setInfoTooltipMessage("Registration successful! Please log in.");
+      .then(() => {
+        setInfoTooltipMessage("¡Correcto! Ya estás registrado.");
+        setIsTooltipSuccess(true);
         setIsInfoTooltipOpen(true);
-        console.log("Registration successful:", res);
         navigate("/login");
       })
-      .catch((err) => {
-        console.error("Registration error:", err);
+      .catch(() => {
+        setInfoTooltipMessage(
+          "¡Ups! Algo salió mal. Por favor, inténtalo de nuevo."
+        );
+        setIsTooltipSuccess(false);
+        setIsInfoTooltipOpen(true);
       });
   };
 
@@ -63,19 +69,21 @@ function App() {
           res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
         )
         .then((data) => {
-          setCurrentUser(data); // Guarda el email en el estado para mostrarlo en el header
+          setIsLoggedIn(true);
+          setEmail(data.data.email);
+          navigate("/");
         })
         .catch((err) => {
           console.error("Token validation error:", err);
         });
     }
-  }, []);
+  }, [navigate]);
 
-  // useEffect(() => {
-  //   api.getUserInfo().then((user) => {
-  //     setCurrentUser(user);
-  //   });
-  // }, []);
+  useEffect(() => {
+    api.getUserInfo().then((user) => {
+      setCurrentUser(user);
+    });
+  }, [isLoggedIn]);
 
   const handleUpdateUser = (data) => {
     (async () => {
@@ -93,6 +101,36 @@ function App() {
     });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    const token = localStorage.getItem("jwt");
+    fetch("https://se-register-api.en.tripleten-services.com/v1/users/me", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then((data) => {
+        setEmail(data.data.email);
+      });
+
+    // Puedes agregar más lógica aquí si lo necesitas
+  };
+
+  const showErrorTooltip = (message) => {
+    setInfoTooltipMessage(message);
+    setIsTooltipSuccess(false); // Es un error
+    setIsInfoTooltipOpen(true);
+  };
+
   return (
     <CurrentUserContext.Provider
       value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}
@@ -101,13 +139,25 @@ function App() {
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={handleTooltipClose}
-          message="¡Correcto! Ya estás registrado."
+          message={infoTooltipMessage}
+          isSuccess={isTooltipSuccess}
         />
-        <Header />
+        <Header
+          className="header header_main"
+          handleLogout={handleLogout}
+          currentUser={currentUser}
+          email={email}
+          isLoggedIn={isLoggedIn}
+        />
         <Routes>
           <Route
             path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+            element={
+              <Login
+                onLogin={handleLogin}
+                showErrorTooltip={showErrorTooltip}
+              />
+            }
           />
           <Route
             path="/register"
