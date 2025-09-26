@@ -16,11 +16,6 @@ const Register = ({ handleRegistration }) => {
     }));
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   handleLogin(data);
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     handleRegistration(data.email, data.password);
